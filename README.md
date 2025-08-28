@@ -14,70 +14,115 @@ A simple blog application built with Django and Django REST Framework (DRF) that
 - SQLite (default, can be changed to PostgreSQL or MySQL)
 
 ## Setup & Installation
-1. Clone the repository:
-   ```bash
-   git clone
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/ActualLearner/django_blog_rebuild.git
     ```
-2. Navigate to the project directory:
-   ```bash
-    cd django-blog-app
+
+2.  **Navigate to the Project Directory:**
+    ```bash
+    cd django_blog_rebuild
     ```
-3. Create a virtual environment:
-   ```bash
+
+3.  **Navigate to the Backend Directory:**
+    *All subsequent commands should be run from within the `backend` directory.*
+    ```bash
+    cd backend
+    ```
+
+4.  **Create and Activate a Virtual Environment:**
+    ```bash
+    # Create the virtual environment
     python -m venv venv
+
+    # Activate it
+    # On Windows:
+    venv\Scripts\activate
+    # On macOS/Linux:
+    source venv/bin/activate
     ```
-4. Activate the virtual environment:
-    - On Windows:
-      ```bash
-        venv\Scripts\activate
-        ```
-    - On macOS/Linux:
-      ```bash
-        source venv/bin/activate
-        ```
-5. Install the required packages:
-   ```bash
+
+5.  **Install Dependencies:**
+    *Ensure your virtual environment is active before running this command.*
+    ```bash
     pip install -r requirements.txt
     ```
-6. Apply migrations:
+
+6.  **Apply Database Migrations:**
     ```bash
-     python manage.py migrate
-     ```
-7. Create a superuser:
-    ```bash
-     python manage.py createsuperuser
+    python manage.py migrate
     ```
-8. Run the development server:
+
+7.  **Create a Superuser (Optional):**
+    *This allows you to access the Django admin panel.*
     ```bash
-     python manage.py runserver
+    python manage.py createsuperuser
     ```
-9. Open your browser and navigate to `http://localhost:8000`
 
-## API endpoints & Usage
+8.  **Run the Development Server:**
+    ```bash
+    python manage.py runserver
+    ```
+    The API will now be running at `http://127.0.0.1:8000/`. You can access the browsable API in your browser.
 
-All API endpoints are prefixed with `/api/`.
+## API Endpoints & Usage
 
+The API root is available at `/api/`. All endpoints require a JSON request body.
+
+---
 
 ### Authentication
-- `POST /api/signup/` - Register a new user.
-- `POST /api/token/` - Obtain JWT token by providing username and password.
-- `POST /api/token/refresh/` - Refresh an expired access token using a valid refresh token.
 
-### Posts Endpoints
-- `GET /api/posts/` - List all posts.
-- `POST /api/posts/` - Create a new post (Requires authentication).
-- `GET /api/posts/{id}/` - Retrieve a specific post.
-- `PUT /api/posts/{id}/` - Update a specific post (Requires authentication, author only).
-- `DELETE /api/posts/{id}/` - Delete a specific post (Requires authentication, author only).
+- **`POST /api/signup/`** - Register a new user.
+  - **Body:** `{ "username": "...", "password": "...", "password2": "...", "email": "(optional)" }`
 
-### Comments Endpoints
-- `GET /api/comments/` - List all comments.
-- `POST /api/comments/` - Create a new comment on a post (Requires authentication).
-- `GET /api/comments/{id}/` - Retrieve a specific comment.
-- `PUT /api/comments/{id}/` - Update a specific comment (Requires authentication, author only).
-- `DELETE /api/comments/{id}/` - Delete a specific comment (Requires authentication, author only).
+- **`POST /api/token/`** - Obtain JWT tokens.
+  - **Body:** `{ "username": "...", "password": "..." }`
 
-### Users Endpoints
-- `GET /api/users/` - List all users.
-- `GET /api/users/{id}/` - Retrieve a specific user's public profile.
+- **`POST /api/token/refresh/`** - Refresh the access token.
+  - **Body:** `{ "refresh": "..." }`
 
+---
+
+### Posts
+
+- **`GET /api/posts/`**
+  - **Action:** List all posts.
+- **`POST /api/posts/`**
+  - **Action:** Create a new post. (Authentication required)
+  - **Body:** `{ "title": "...", "content": "..." }`
+- **`GET /api/posts/{id}/`**
+  - **Action:** Retrieve a single post.
+- **`PUT /api/posts/{id}/`**
+  - **Action:** Update a post. (Author only)
+  - **Body:** `{ "title": "...", "content": "..." }`
+- **`DELETE /api/posts/{id}/`**
+  - **Action:** Delete a post. (Author only)
+
+---
+
+### Comments
+
+- **`GET /api/comments/`**
+  - **Action:** List all comments.
+- **`POST /api/comments/`**
+  - **Action:** Create a new comment. (Authentication required)
+  - **Body:** `{ "post": "<post_url>", "content": "..." }`
+- **`GET /api/comments/{id}/`**
+  - **Action:** Retrieve a single comment.
+- **`PUT /api/comments/{id}/`**
+  - **Action:** Update a comment. (Author only)
+  - **Body:** `{ "post": "<post_url>", "content": "..." }`
+- **`DELETE /api/comments/{id}/`**
+  - **Action:** Delete a comment. (Author only)
+
+---
+
+### Users
+
+- **`GET /api/users/`**
+  - **Action:** List all users.
+- **`GET /api/users/{id}/`**
+  - **Action:** Retrieve a single user.
+  
