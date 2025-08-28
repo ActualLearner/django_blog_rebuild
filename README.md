@@ -1,12 +1,11 @@
 # Django Blog App
-A simple blog application built with Django and Django REST Framework (DRF) that allows users to create, read, update, and delete blog posts and comments.:
+A simple blog application built with Django and Django REST Framework (DRF) that allows users to create, read, update, and delete blog posts and comments.
 
 ## Features
-- User authentication (sign up, log in, log out)
+- User authentication (sign up, log in using JWT tokens)
 - Post CRUD operations (create, read, update, delete)
 - Comment CRUD operations
 - Author-only permissions
-- 
 
 ## Technologies Used
 - Python
